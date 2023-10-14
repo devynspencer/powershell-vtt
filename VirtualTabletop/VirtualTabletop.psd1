@@ -22,6 +22,10 @@
 
     # Functions to export from this module
     FunctionsToExport = @(
+        'Rename-TabletopTokenImage'
+        # 'Categorize-TabletopAsset'
+        # 'Backup-TabletopAssets'
+        # 'Index-TabletopAssets'
     )
 
     # Private data to pass to the module specified in RootModule
