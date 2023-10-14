@@ -35,13 +35,6 @@ function Rename-TabletopTokenImage {
     )
 
     # Ensure subdirectories exist for each token type
-    $UnmatchedDirectory = Join-Path -Path $DestinationDirectory -ChildPath 'unmatched'
-
-    if (!(Test-Path $UnmatchedDirectory)) {
-        Write-Host -ForegroundColor Cyan "Subdirectory [$UnmatchedDirectory] not found, creating..."
-        $null = New-Item -ItemType Directory -Path $UnmatchedDirectory
-    }
-
     foreach ($TokenType in $TokenTypes) {
         $SubDirectory = Join-Path -Path $DestinationDirectory -ChildPath $TokenType
 
@@ -88,7 +81,14 @@ function Rename-TabletopTokenImage {
 
         # If no patterns were matched, move the file to a separate directory
         if (!$Matched) {
+            $UnmatchedDirectory = Join-Path -Path $DestinationDirectory -ChildPath 'unmatched'
             $NewPath = Join-Path -Path $UnmatchedDirectory -ChildPath $OriginalName
+
+            # Create directory for unmatched tokens if none exists
+            if (!(Test-Path $UnmatchedDirectory)) {
+                Write-Host -ForegroundColor Cyan "Subdirectory [$UnmatchedDirectory] not found, creating..."
+                $null = New-Item -ItemType Directory -Path $UnmatchedDirectory
+            }
 
             Write-Host -ForegroundColor Magenta "No match found for asset [$OriginalName], moving to [$NewPath]"
             Move-Item -Path $_.FullName -Destination $NewPath -Force
