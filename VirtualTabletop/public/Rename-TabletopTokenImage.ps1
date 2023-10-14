@@ -90,6 +90,7 @@ function Rename-TabletopTokenImage {
                 $null = New-Item -ItemType Directory -Path $UnmatchedDirectory
             }
 
+            # Move the unmatched token for manual inspection
             Write-Host -ForegroundColor Magenta "No match found for asset [$OriginalName], moving to [$NewPath]"
             Move-Item -Path $_.FullName -Destination $NewPath -Force
         }
